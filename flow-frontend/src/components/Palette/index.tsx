@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Typography } from 'antd';
-import { NodeType } from '../types/flow';
+import { NodeType } from '../../types/flow';
 import { PlayCircleOutlined, StopOutlined, ApiOutlined, BranchesOutlined, DatabaseOutlined, FileOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;

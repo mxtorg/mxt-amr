@@ -1,5 +1,5 @@
 import React from 'react';
-import { Drawer, Form, Input, InputNumber, Select, Switch, Button, Space, Divider, message } from 'antd';
+import { Drawer, Form as AntForm, Input, InputNumber, Select, Switch, Button, Space, Divider, message } from 'antd';
 import Form from '@rjsf/antd';
 import validator from '@rjsf/validator-ajv8';
 import { useFlowStore } from '../../stores/flowStore';
@@ -114,7 +114,7 @@ interface NodeDrawerProps {
 
 const NodeDrawer: React.FC<NodeDrawerProps> = ({ open, onClose, node }) => {
   const { updateNode } = useFlowStore();
-  const [form] = Form.useForm();
+  const [form] = AntForm.useForm();
 
   React.useEffect(() => {
     if (node && open) {

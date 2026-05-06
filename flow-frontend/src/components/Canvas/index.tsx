@@ -3,15 +3,10 @@ import ReactFlow, {
   Background,
   Controls,
   MiniMap,
-  addEdge,
   Connection,
   Edge,
   Node,
   OnConnect,
-  OnNodesChange,
-  OnEdgesChange,
-  applyNodeChanges,
-  applyEdgeChanges,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { message } from 'antd';
@@ -27,7 +22,7 @@ interface CanvasProps {
   onNodeClick: (node: Node) => void;
 }
 
-const Canvas: React.FC<CanvasProps> = ({ onNodeClick }) => {
+const Canvas: React.FC<CanvasProps> = ({ onNodeClick: onNodeClickProp }) => {
   const {
     nodes,
     edges,
@@ -70,28 +65,12 @@ const Canvas: React.FC<CanvasProps> = ({ onNodeClick }) => {
     [storeAddEdge]
   );
 
-  const onNodesChange: OnNodesChange = useCallback(
-    (changes) => {
-      const newNodes = applyNodeChanges(changes, nodes);
-      storeOnNodesChange?.(newNodes as any);
-    },
-    [nodes, storeOnNodesChange]
-  );
-
-  const onEdgesChange: OnEdgesChange = useCallback(
-    (changes) => {
-      const newEdges = applyEdgeChanges(changes, edges);
-      storeOnEdgesChange?.(newEdges as any);
-    },
-    [edges, storeOnEdgesChange]
-  );
-
   const onNodeClick = useCallback(
     (_: React.MouseEvent, node: Node) => {
       setSelectedNode(node);
-      onNodeClick(node);
+      onNodeClickProp(node);
     },
-    [setSelectedNode, onNodeClick]
+    [setSelectedNode, onNodeClickProp]
   );
 
   return (
@@ -99,8 +78,8 @@ const Canvas: React.FC<CanvasProps> = ({ onNodeClick }) => {
       <ReactFlow
         nodes={nodes}
         edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
+        onNodesChange={storeOnNodesChange}
+        onEdgesChange={storeOnEdgesChange}
         onConnect={onConnect}
         onNodeClick={onNodeClick}
         nodeTypes={nodeTypes}

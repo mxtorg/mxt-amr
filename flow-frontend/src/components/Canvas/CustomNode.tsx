@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { Handle, Position, NodeProps } from 'reactflow';
 import { Badge, Tag, Tooltip } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { NodeType, NodeStatus } from '../types/flow';
+import { NodeType, NodeStatus } from '../../types/flow';
 import { PlayCircleOutlined, StopOutlined, ApiOutlined, BranchesOutlined, DatabaseOutlined, FileOutlined } from '@ant-design/icons';
 
 const nodeConfig: Record<NodeType, { color: string; icon: React.ReactNode }> = {

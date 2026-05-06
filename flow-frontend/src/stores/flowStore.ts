@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Node, Edge } from 'reactflow';
+import { Node, Edge, applyNodeChanges, applyEdgeChanges } from 'reactflow';
 import { v4 as uuidv4 } from 'uuid';
 import { NodeType, FlowNode, Edge as FlowEdge, NodeStatus, RouterStrategyType, WaitMode, DbOperationType, FileOperationType } from '../types/flow';
 
@@ -27,6 +27,8 @@ interface FlowState {
   validateDag: () => { valid: boolean; message?: string };
   getFlowDefinition: () => { id: string; name: string; nodes: FlowNode[]; edges: FlowEdge[] };
   resetFlow: () => void;
+  onNodesChange?: (changes: any) => void;
+  onEdgesChange?: (changes: any) => void;
 }
 
 const getDefaultNodeData = (type: NodeType): Record<string, any> => {
@@ -153,6 +155,18 @@ export const useFlowStore = create<FlowState>((set, get) => ({
       data: getDefaultNodeData(type),
     };
     set((state) => ({ nodes: [...state.nodes, newNode] }));
+  },
+
+  onNodesChange: (changes) => {
+    set((state) => ({
+      nodes: applyNodeChanges(changes, state.nodes),
+    }));
+  },
+
+  onEdgesChange: (changes) => {
+    set((state) => ({
+      edges: applyEdgeChanges(changes, state.edges),
+    }));
   },
 
   updateNode: (id, data) => {
