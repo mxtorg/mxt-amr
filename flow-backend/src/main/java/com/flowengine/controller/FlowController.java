@@ -1,5 +1,6 @@
 package com.flowengine.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.flowengine.core.executor.FlowEngine;
 import com.flowengine.domain.entity.FlowExec;
 import com.flowengine.dto.*;
@@ -43,12 +44,12 @@ public class FlowController {
     }
 
     @PostMapping("/flows")
-    public String createFlow(@RequestBody FlowDefinitionDTO dto) {
+    public String createFlow(@RequestBody FlowDefinitionDTO dto) throws JsonProcessingException {
         return flowService.createFlow(dto);
     }
 
     @PutMapping("/flows/{flowId}")
-    public void updateFlow(@PathVariable String flowId, @RequestBody FlowDefinitionDTO dto) {
+    public void updateFlow(@PathVariable String flowId, @RequestBody FlowDefinitionDTO dto) throws JsonProcessingException {
         flowService.updateFlow(flowId, dto);
     }
 

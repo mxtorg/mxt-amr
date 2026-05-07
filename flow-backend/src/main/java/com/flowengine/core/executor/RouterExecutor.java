@@ -67,9 +67,19 @@ public class RouterExecutor implements NodeExecutor {
                 } else {
                     try {
                         results = futures.stream()
-                            .map(f -> f.get(30, TimeUnit.SECONDS))
+                            .map(f -> {
+                                try {
+                                    return f.get(30, TimeUnit.SECONDS);
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
+                                } catch (ExecutionException e) {
+                                    throw new RuntimeException(e);
+                                } catch (TimeoutException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            })
                             .collect(java.util.stream.Collectors.toList());
-                    } catch (TimeoutException e) {
+                    } catch (Exception e) {
                         log.warn("Router group {} timeout", entry.getKey());
                         results = futures.stream()
                             .map(f -> {
