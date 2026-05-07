@@ -1,5 +1,6 @@
 package com.flowengine.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flowengine.domain.entity.*;
 import com.flowengine.dto.*;
@@ -44,7 +45,7 @@ public class FlowService {
     }
 
     @Transactional
-    public String createFlow(FlowDefinitionDTO dto) {
+    public String createFlow(FlowDefinitionDTO dto) throws JsonProcessingException {
         FlowDef flowDef = new FlowDef();
         flowDef.setId(dto.getId() != null ? dto.getId() : UUID.randomUUID().toString());
         flowDef.setName(dto.getName());
@@ -74,7 +75,7 @@ public class FlowService {
     }
 
     @Transactional
-    public void updateFlow(String flowId, FlowDefinitionDTO dto) {
+    public void updateFlow(String flowId, FlowDefinitionDTO dto) throws JsonProcessingException {
         FlowDef flowDef = flowDefRepository.findById(flowId)
             .orElseThrow(() -> new RuntimeException("Flow not found: " + flowId));
 
@@ -114,7 +115,7 @@ public class FlowService {
         flowDefRepository.deleteById(flowId);
     }
 
-    private void saveNode(String flowId, Map<String, Object> nodeMap) {
+    private void saveNode(String flowId, Map<String, Object> nodeMap) throws JsonProcessingException {
         NodeDef nodeDef = new NodeDef();
         nodeDef.setId((String) nodeMap.get("id"));
         nodeDef.setFlowId(flowId);

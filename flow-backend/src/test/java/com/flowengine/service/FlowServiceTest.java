@@ -1,5 +1,6 @@
 package com.flowengine.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.flowengine.core.executor.FlowEngine;
 import com.flowengine.dto.*;
 import com.flowengine.domain.enums.NodeType;
@@ -20,7 +21,7 @@ class FlowServiceTest {
     private FlowEngine flowEngine;
 
     @Test
-    void testCreateAndGetFlow() {
+    void testCreateAndGetFlow() throws JsonProcessingException {
         FlowDefinitionDTO dto = new FlowDefinitionDTO();
         dto.setId("test-flow-001");
         dto.setName("测试流程");
@@ -84,7 +85,7 @@ class FlowServiceTest {
     }
 
     @Test
-    void testExecuteFlow() {
+    void testExecuteFlow() throws JsonProcessingException {
         FlowDefinitionDTO dto = new FlowDefinitionDTO();
         dto.setId("exec-test-flow");
         dto.setName("执行测试流程");
